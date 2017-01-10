@@ -6,8 +6,9 @@ Currently supports...
 1. Wemo light bulb - on/off/dimming 
 2. Wemo light switch - on/off
 3. Wemo switch (socket) - on/off
-4. Device discovery
-5. Grouped devices under wemo bridge
+4. Wemo insight switch - on/off/params
+5. Device discovery
+6. Grouped devices under wemo bridge
 
 
 ## Getting started:
