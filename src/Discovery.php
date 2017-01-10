@@ -3,6 +3,7 @@ namespace a15lam\PhpWemo;
 
 use a15lam\PhpWemo\Devices\Bridge;
 use a15lam\PhpWemo\Devices\LightSwitch;
+use a15lam\PhpWemo\Devices\InsightSwitch;
 use a15lam\PhpWemo\Devices\WemoBulb;
 use a15lam\PhpWemo\Devices\WemoSwitch;
 use a15lam\PhpWemo\Workspace as WS;
@@ -178,6 +179,8 @@ class Discovery
                 $data['class_name'] = LightSwitch::class;
             } else if (static::isWemoSwitch($info['UDN'])) {
                 $data['class_name'] = WemoSwitch::class;
+            } else if (static::isInsightSwitch($info['UDN'])) {
+                $data['class_name'] = InsightSwitch::class;
             }
 
             $infos[] = $data;
@@ -254,6 +257,22 @@ class Discovery
     protected static function isLightSwitch($udn)
     {
         if (strpos($udn, 'uuid:Lightswitch-1') !== false) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Checks to see if UDN is for a InsightSwitch device.
+     *
+     * @param $udn string
+     *
+     * @return bool
+     */
+    protected static function isInsightSwitch($udn)
+    {
+        if (strpos($udn, 'uuid:Insight-1') !== false) {
             return true;
         }
 
