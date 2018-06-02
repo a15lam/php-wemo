@@ -24,7 +24,7 @@ class WemoClient extends BaseClient implements ClientInterface
      * @return array|string
      * @throws \Exception
      */
-    public function request($controlUrl, $service = null, $method = null, $arguments = [])
+    public function request($controlUrl, ?string $service = null, ?string $method = null, array $arguments = [])
     {
         $controlUrl = ltrim($controlUrl, '/');
         $url = 'http://' . $this->ip . '/' . $controlUrl;

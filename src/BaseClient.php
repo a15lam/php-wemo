@@ -32,7 +32,7 @@ class BaseClient
      * @param null   $port
      * @param int    $outputFormat
      */
-    public function __construct($ip, $port = null, $outputFormat = WemoClient::FORMAT_ARRAY)
+    public function __construct(string $ip, ?int $port = null, int $outputFormat = WemoClient::FORMAT_ARRAY)
     {
         $this->ip = $ip;
         $this->port = (!empty($port)) ? $port : WS::config()->get('port');
@@ -46,7 +46,7 @@ class BaseClient
      *
      * @return array|string
      */
-    public function info($url)
+    public function info(string $url)
     {
         $url = 'http://' . $this->ip . '/' . ltrim($url, '/');
         $options = [
@@ -70,7 +70,7 @@ class BaseClient
      *
      * @return array|string
      */
-    protected function formatResponse($response)
+    protected function formatResponse(string $response)
     {
         if (static::FORMAT_ARRAY === $this->output) {
             $response = static::xmlToArray($response);
@@ -95,7 +95,7 @@ class BaseClient
      * Examples: $array =  xml2array(file_get_contents('feed.xml'));
      *           $array =  xml2array(file_get_contents('feed.xml', 1, 'attribute'));
      */
-    public static function xmlToArray($contents, $get_attributes = 0, $priority = 'tag')
+    public static function xmlToArray(string $contents, int $get_attributes = 0, string $priority = 'tag'): ?array
     {
         if (empty($contents)) {
             return null;
@@ -133,7 +133,7 @@ class BaseClient
 
             //This command will extract these variables into the foreach scope
             // tag(string) , type(string) , level(int) , attributes(array) .
-            extract($data); //We could use the array by itself, but this cooler.
+            extract($data, null); //We could use the array by itself, but this cooler.
 
             $result = [];
             $attributes_data = [];
@@ -163,7 +163,7 @@ class BaseClient
             /** @var string $level */
             if ($type == "open") { //The starting of the tag '<tag>'
                 $parent[$level - 1] = &$current;
-                if (!is_array($current) or (!in_array($tag, array_keys($current)))) { //Insert New tag
+                if (!is_array($current) or (!array_key_exists($tag, $current))) { //Insert New tag
                     $current[$tag] = $result;
                     if ($attributes_data) {
                         $current[$tag . '_attr'] = $attributes_data;
@@ -183,8 +183,7 @@ class BaseClient
                         ]; //This will combine the existing item and the new item together to make an array
                         $repeated_tag_index[$tag . '_' . $level] = 2;
 
-                        if (isset($current[$tag .
-                            '_attr'])) { //The attribute of the last(0th) tag must be moved as well
+                        if (isset($current[$tag . '_attr'])) { //The attribute of the last(0th) tag must be moved as well
                             $current[$tag]['0_attr'] = $current[$tag . '_attr'];
                             unset($current[$tag . '_attr']);
                         }

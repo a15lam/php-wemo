@@ -36,7 +36,7 @@ class Discovery
      *
      * @return array|mixed|null
      */
-    public static function find($refresh = false)
+    public static function find(bool $refresh = false)
     {
         // If not refreshing then look in cache first.
         if ($refresh === false) {
@@ -104,7 +104,7 @@ class Discovery
      * @return mixed
      * @throws \Exception
      */
-    public static function getDeviceByName($name)
+    public static function getDeviceByName(string $name)
     {
         $id = str_replace(' ', '_', strtolower($name));
         return static::getDeviceById($id);
@@ -113,7 +113,7 @@ class Discovery
     /**
      * @param $id
      *
-     * @return \a15lam\PhpWemo\Devices\WemoBulb
+     * @return mixed
      * @throws \Exception
      */
     public static function getDeviceById($id)
@@ -146,7 +146,7 @@ class Discovery
      *
      * @return \a15lam\PhpWemo\WemoClient
      */
-    protected static function getClientByDevice($device)
+    protected static function getClientByDevice(array $device): WemoClient
     {
         $ip = static::getIpFromDevice($device);
         $port = static::getPortFromDevice($device);
@@ -160,7 +160,7 @@ class Discovery
      *
      * @return string
      */
-    protected static function getIpFromDevice($device)
+    protected static function getIpFromDevice(array $device): string
     {
         if(isset($device['ip'])){
             return $device['ip'];
@@ -179,7 +179,7 @@ class Discovery
      *
      * @return string
      */
-    protected static function getPortFromDevice($device)
+    protected static function getPortFromDevice(array $device): string
     {
         if(isset($device['port'])){
             return $device['port'];
@@ -200,7 +200,7 @@ class Discovery
      * @return mixed
      * @throws \Exception
      */
-    public static function lookupDevice($key, $value)
+    public static function lookupDevice(string $key, $value)
     {
         $devices = static::find();
 
@@ -220,7 +220,7 @@ class Discovery
      *
      * @return array
      */
-    protected static function getDeviceInfo($devices)
+    protected static function getDeviceInfo(array $devices): array
     {
         $infos = [];
         foreach ($devices as $device) {
@@ -289,7 +289,7 @@ class Discovery
      *
      * @return mixed
      */
-    protected static function getClientInfo($client)
+    protected static function getClientInfo(ClientInterface $client)
     {
         return $client->info('setup.xml');
     }
@@ -299,7 +299,7 @@ class Discovery
      *
      * @return string
      */
-    protected static function getPort($data)
+    protected static function getPort(string $data) : string
     {
         $pieces = explode('LOCATION:', $data);
         $location = substr($pieces[1], 0, strpos($pieces[1],  "\n"));
@@ -316,7 +316,7 @@ class Discovery
      *
      * @return bool
      */
-    protected static function setDevicesInStorage($devices)
+    protected static function setDevicesInStorage(array $devices): bool
     {
         try {
             $data = [];
@@ -370,13 +370,9 @@ class Discovery
      *
      * @return bool
      */
-    protected static function isBridge($modelName)
+    protected static function isBridge(?string $modelName) : bool
     {
-        if ($modelName === Bridge::MODEL_NAME) {
-            return true;
-        }
-
-        return false;
+        return ($modelName === Bridge::MODEL_NAME);
     }
 
     /**
@@ -386,13 +382,9 @@ class Discovery
      *
      * @return bool
      */
-    protected static function isLightSwitch($modelName)
+    protected static function isLightSwitch(?string $modelName) : bool
     {
-        if ($modelName === LightSwitch::MODEL_NAME) {
-            return true;
-        }
-
-        return false;
+        return ($modelName === LightSwitch::MODEL_NAME);
     }
 
     /**
@@ -402,13 +394,9 @@ class Discovery
      *
      * @return bool
      */
-    protected static function isInsightSwitch($modelName)
+    protected static function isInsightSwitch(?string $modelName) : bool
     {
-        if ($modelName === InsightSwitch::MODEL_NAME) {
-            return true;
-        }
-
-        return false;
+        return ($modelName === InsightSwitch::MODEL_NAME);
     }
 
     /**
@@ -418,13 +406,9 @@ class Discovery
      *
      * @return bool
      */
-    protected static function isWemoSwitch($modelName)
+    protected static function isWemoSwitch(?string $modelName) : bool
     {
-        if ($modelName === WemoSwitch::MODEL_NAME) {
-            return true;
-        }
-
-        return false;
+        return ($modelName === WemoSwitch::MODEL_NAME);
     }
 
     /**
@@ -434,12 +418,8 @@ class Discovery
      *
      * @return bool
      */
-    protected static function isEmulatedWemoSwitch($modelName)
+    protected static function isEmulatedWemoSwitch(?string $modelName) : bool
     {
-        if ($modelName === WemoSwitch::EMULATED_NAME) {
-            return true;
-        }
-
-        return false;
+        return ($modelName === WemoSwitch::EMULATED_NAME);
     }
 }
