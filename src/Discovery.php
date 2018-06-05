@@ -1,14 +1,14 @@
 <?php
-namespace a15lam\PhpWemo;
+namespace openWebX\PhpWemo;
 
-use a15lam\PhpWemo\Contracts\ClientInterface;
-use a15lam\PhpWemo\Contracts\DeviceInterface;
-use a15lam\PhpWemo\Devices\Bridge;
-use a15lam\PhpWemo\Devices\LightSwitch;
-use a15lam\PhpWemo\Devices\InsightSwitch;
-use a15lam\PhpWemo\Devices\WemoBulb;
-use a15lam\PhpWemo\Devices\WemoSwitch;
-use a15lam\PhpWemo\Workspace as WS;
+use openWebX\PhpWemo\Contracts\ClientInterface;
+use openWebX\PhpWemo\Contracts\DeviceInterface;
+use openWebX\PhpWemo\Devices\Bridge;
+use openWebX\PhpWemo\Devices\LightSwitch;
+use openWebX\PhpWemo\Devices\InsightSwitch;
+use openWebX\PhpWemo\Devices\WemoBulb;
+use openWebX\PhpWemo\Devices\WemoSwitch;
+use openWebX\PhpWemo\Workspace as WS;
 use Clue\React\Ssdp\Client;
 use React\EventLoop\Factory;
 
@@ -18,7 +18,7 @@ use React\EventLoop\Factory;
  * Discovers all Wemo devices in the network
  * and caches them in a file in json.
  *
- * @package a15lam\PhpWemo
+ * @package openWebX\PhpWemo
  */
 class Discovery
 {
@@ -113,7 +113,7 @@ class Discovery
     /**
      * @param $id
      *
-     * @return \a15lam\PhpWemo\Devices\WemoBulb
+     * @return \openWebX\PhpWemo\Devices\WemoBulb
      * @throws \Exception
      */
     public static function getDeviceById($id)
@@ -144,7 +144,7 @@ class Discovery
     /**
      * @param $device
      *
-     * @return \a15lam\PhpWemo\WemoClient
+     * @return \openWebX\PhpWemo\WemoClient
      */
     protected static function getClientByDevice($device)
     {
@@ -229,45 +229,49 @@ class Discovery
             $ip = substr($sender, 0, strpos($sender, ':'));
             $client = static::getClientByDevice($device);
             $info = static::getClientInfo($client);
-            $info = $info['root']['device'];
 
-            // Skipping emulated wemo switch by fauxmo.
-            if($info['deviceType'] !== 'urn:MakerMusingsArif:device:controllee:1') {
-                $id = str_replace(' ', '_', strtolower($info['friendlyName']));
-                $data = [
-                    'id'           => $id,
-                    'ip'           => $ip,
-                    'port'         => $port,
-                    'deviceType'   => $info['deviceType'],
-                    'friendlyName' => $info['friendlyName'],
-                    'modelName'    => $info['modelName'],
-                    'UDN'          => $info['UDN']
-                ];
+            if (isset($info['root']) && isset($info['root']['device'])) {
 
-                if (static::isBridge($info['modelName'])) {
-                    $bridge = new Bridge($ip, $client);
-                    $bridgeDevices = $bridge->getPairedDevices(true);
+                $info = $info['root']['device'];
 
-                    foreach ($bridgeDevices as $i => $bridgeDevice) {
-                        $bridgeDevice['id'] = str_replace(' ', '_', strtolower($bridgeDevice['FriendlyName']));
-                        $bridgeDevices[$i] = $bridgeDevice;
+                // Skipping emulated wemo switch by fauxmo.
+                if($info['deviceType'] !== 'urn:MakerMusingsArif:device:controllee:1') {
+                    $id = str_replace(' ', '_', strtolower($info['friendlyName']));
+                    $data = [
+                        'id'           => $id,
+                        'ip'           => $ip,
+                        'port'         => $port,
+                        'deviceType'   => $info['deviceType'],
+                        'friendlyName' => $info['friendlyName'],
+                        'modelName'    => $info['modelName'],
+                        'UDN'          => $info['UDN']
+                    ];
+
+                    if (static::isBridge($info['modelName'])) {
+                        $bridge = new Bridge($ip, $client);
+                        $bridgeDevices = $bridge->getPairedDevices(true);
+
+                        foreach ($bridgeDevices as $i => $bridgeDevice) {
+                            $bridgeDevice['id'] = str_replace(' ', '_', strtolower($bridgeDevice['FriendlyName']));
+                            $bridgeDevices[$i] = $bridgeDevice;
+                        }
+
+                        $data['class_name'] = Bridge::class;
+                        $data['device'] = $bridgeDevices;
+                    } else if (static::isLightSwitch($info['modelName'])) {
+                        $data['class_name'] = LightSwitch::class;
+                    } else if (static::isWemoSwitch($info['modelName'])) {
+                        $data['class_name'] = WemoSwitch::class;
+                    } else if (static::isInsightSwitch($info['modelName'])) {
+                        $data['class_name'] = InsightSwitch::class;
+                    } else if (static::isEmulatedWemoSwitch($info['modelName'])) {
+                        $data['class_name'] = WemoSwitch::class;
+                    } else {
+                        static::resolveOtherDevices($data, $info, $device);
                     }
 
-                    $data['class_name'] = Bridge::class;
-                    $data['device'] = $bridgeDevices;
-                } else if (static::isLightSwitch($info['modelName'])) {
-                    $data['class_name'] = LightSwitch::class;
-                } else if (static::isWemoSwitch($info['modelName'])) {
-                    $data['class_name'] = WemoSwitch::class;
-                } else if (static::isInsightSwitch($info['modelName'])) {
-                    $data['class_name'] = InsightSwitch::class;
-                } else if (static::isEmulatedWemoSwitch($info['modelName'])) {
-                    $data['class_name'] = WemoSwitch::class;
-                } else {
-                    static::resolveOtherDevices($data, $info, $device);
+                    $infos[] = $data;
                 }
-
-                $infos[] = $data;
             }
         }
 
