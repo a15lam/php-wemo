@@ -23,11 +23,13 @@ if (count($devices) > 0) {
                     }
                 }
             } else {
-                $client = new \a15lam\PhpWemo\WemoClient($device['ip'], $device['port']);
-                $dc = $device['class_name'];
-                /** @var \a15lam\PhpWemo\Contracts\DeviceInterface $di */
-                $di = new $dc($device['id'], $client);
-                $list[] = [$device['id'], $di->state()];
+                if (isset($device['class_name'])) {
+                    $client = new \a15lam\PhpWemo\WemoClient($device['ip'], $device['port']);
+                    $dc = $device['class_name'];
+                    /** @var \a15lam\PhpWemo\Contracts\DeviceInterface $di */
+                    $di = new $dc($device['id'], $client);
+                    $list[] = [$device['id'], $di->state()];
+                }
             }
         }
 

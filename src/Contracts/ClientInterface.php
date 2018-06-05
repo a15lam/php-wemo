@@ -4,7 +4,7 @@ namespace a15lam\PhpWemo\Contracts;
 
 interface ClientInterface
 {
-    public function info($url);
+    public function info(string $url);
 
-    public function request($controlUrl, $service = null, $method = null, $arguments = []);
+    public function request(string $controlUrl, ?string $service = null, ?string $method = null, array $arguments = []);
 }

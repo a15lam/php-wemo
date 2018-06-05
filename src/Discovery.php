@@ -1,14 +1,14 @@
 <?php
-namespace openWebX\PhpWemo;
+namespace a15lam\PhpWemo;
 
-use openWebX\PhpWemo\Contracts\ClientInterface;
-use openWebX\PhpWemo\Contracts\DeviceInterface;
-use openWebX\PhpWemo\Devices\Bridge;
-use openWebX\PhpWemo\Devices\LightSwitch;
-use openWebX\PhpWemo\Devices\InsightSwitch;
-use openWebX\PhpWemo\Devices\WemoBulb;
-use openWebX\PhpWemo\Devices\WemoSwitch;
-use openWebX\PhpWemo\Workspace as WS;
+use a15lam\PhpWemo\Contracts\ClientInterface;
+use a15lam\PhpWemo\Contracts\DeviceInterface;
+use a15lam\PhpWemo\Devices\Bridge;
+use a15lam\PhpWemo\Devices\LightSwitch;
+use a15lam\PhpWemo\Devices\InsightSwitch;
+use a15lam\PhpWemo\Devices\WemoBulb;
+use a15lam\PhpWemo\Devices\WemoSwitch;
+use a15lam\PhpWemo\Workspace as WS;
 use Clue\React\Ssdp\Client;
 use React\EventLoop\Factory;
 
@@ -18,7 +18,7 @@ use React\EventLoop\Factory;
  * Discovers all Wemo devices in the network
  * and caches them in a file in json.
  *
- * @package openWebX\PhpWemo
+ * @package a15lam\PhpWemo
  */
 class Discovery
 {
@@ -113,7 +113,7 @@ class Discovery
     /**
      * @param $id
      *
-     * @return \openWebX\PhpWemo\Devices\WemoBulb
+     * @return \a15lam\PhpWemo\Devices\WemoBulb
      * @throws \Exception
      */
     public static function getDeviceById($id)
@@ -144,7 +144,7 @@ class Discovery
     /**
      * @param $device
      *
-     * @return \openWebX\PhpWemo\WemoClient
+     * @return \a15lam\PhpWemo\WemoClient
      */
     protected static function getClientByDevice($device)
     {
@@ -220,7 +220,7 @@ class Discovery
      *
      * @return array
      */
-    protected static function getDeviceInfo($devices)
+    protected static function getDeviceInfo(array $devices): array
     {
         $infos = [];
         foreach ($devices as $device) {
@@ -293,7 +293,7 @@ class Discovery
      *
      * @return mixed
      */
-    protected static function getClientInfo($client)
+    protected static function getClientInfo(ClientInterface $client)
     {
         return $client->info('setup.xml');
     }
@@ -303,7 +303,7 @@ class Discovery
      *
      * @return string
      */
-    protected static function getPort($data)
+    protected static function getPort(string $data) : string
     {
         $pieces = explode('LOCATION:', $data);
         $location = substr($pieces[1], 0, strpos($pieces[1],  "\n"));

@@ -30,7 +30,7 @@ class BaseDevice
      * @param string $id Device ip or id
      * @param ClientInterface   $client
      */
-    public function __construct($id, $client)
+    public function __construct(?string $id, $client)
     {
         $this->id = $id;
         $this->ip = (self::isIp($id)) ? $id : static::getDeviceIpById($id);
