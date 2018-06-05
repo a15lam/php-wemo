@@ -1,14 +1,14 @@
 <?php
-namespace a15lam\PhpWemo;
+namespace openWebX\PhpWemo;
 
-use a15lam\PhpWemo\Contracts\ClientInterface;
-use a15lam\PhpWemo\Contracts\DeviceInterface;
-use a15lam\PhpWemo\Devices\Bridge;
-use a15lam\PhpWemo\Devices\LightSwitch;
-use a15lam\PhpWemo\Devices\InsightSwitch;
-use a15lam\PhpWemo\Devices\WemoBulb;
-use a15lam\PhpWemo\Devices\WemoSwitch;
-use a15lam\PhpWemo\Workspace as WS;
+use openWebX\PhpWemo\Contracts\ClientInterface;
+use openWebX\PhpWemo\Contracts\DeviceInterface;
+use openWebX\PhpWemo\Devices\Bridge;
+use openWebX\PhpWemo\Devices\LightSwitch;
+use openWebX\PhpWemo\Devices\InsightSwitch;
+use openWebX\PhpWemo\Devices\WemoBulb;
+use openWebX\PhpWemo\Devices\WemoSwitch;
+use openWebX\PhpWemo\Workspace as WS;
 use Clue\React\Ssdp\Client;
 use React\EventLoop\Factory;
 
@@ -18,7 +18,7 @@ use React\EventLoop\Factory;
  * Discovers all Wemo devices in the network
  * and caches them in a file in json.
  *
- * @package a15lam\PhpWemo
+ * @package openWebX\PhpWemo
  */
 class Discovery
 {
@@ -113,7 +113,7 @@ class Discovery
     /**
      * @param $id
      *
-     * @return \a15lam\PhpWemo\Devices\WemoBulb
+     * @return \openWebX\PhpWemo\Devices\WemoBulb
      * @throws \Exception
      */
     public static function getDeviceById($id)
@@ -144,7 +144,7 @@ class Discovery
     /**
      * @param $device
      *
-     * @return \a15lam\PhpWemo\WemoClient
+     * @return \openWebX\PhpWemo\WemoClient
      */
     protected static function getClientByDevice($device)
     {

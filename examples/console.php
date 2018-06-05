@@ -9,7 +9,7 @@ $refresh = (isset($argv[1])) ? $argv[1] : false;
 
 echo "Looking up your Wemo devices...\n" . PHP_EOL;
 
-$devices = \a15lam\PhpWemo\Discovery::find($refresh);
+$devices = \openWebX\PhpWemo\Discovery::find($refresh);
 
 if (count($devices) > 0) {
     while (true) {
@@ -18,15 +18,15 @@ if (count($devices) > 0) {
             if ($device['deviceType'] === 'urn:Belkin:device:bridge:1') {
                 foreach ($device['device'] as $d) {
                     if ($d['productName'] === 'Lighting') {
-                        $di = new \a15lam\PhpWemo\Devices\WemoBulb($device['id'], $d['id']);
+                        $di = new \openWebX\PhpWemo\Devices\WemoBulb($device['id'], $d['id']);
                         $list[] = [$device['id'] . '.' . $d['id'], $di->state(), $di->dimState()];
                     }
                 }
             } else {
                 if (isset($device['class_name'])) {
-                    $client = new \a15lam\PhpWemo\WemoClient($device['ip'], $device['port']);
+                    $client = new \openWebX\PhpWemo\WemoClient($device['ip'], $device['port']);
                     $dc = $device['class_name'];
-                    /** @var \a15lam\PhpWemo\Contracts\DeviceInterface $di */
+                    /** @var \openWebX\PhpWemo\Contracts\DeviceInterface $di */
                     $di = new $dc($device['id'], $client);
                     $list[] = [$device['id'], $di->state()];
                 }
@@ -63,11 +63,11 @@ if (count($devices) > 0) {
         }
 
         $chosen = explode('.', $list[$choice][0]);
-        $device = \a15lam\PhpWemo\Discovery::lookupDevice('id', $chosen[0]);
+        $device = \openWebX\PhpWemo\Discovery::lookupDevice('id', $chosen[0]);
         $deviceClass = $device['class_name'];
         $myDevice = null;
 
-        if ($deviceClass === \a15lam\PhpWemo\Devices\Bridge::class) {
+        if ($deviceClass === \openWebX\PhpWemo\Devices\Bridge::class) {
             $bridgeDevices = $device['device'];
             $bridgeDevice = [];
             foreach ($bridgeDevices as $bd) {
@@ -79,7 +79,7 @@ if (count($devices) > 0) {
 
             $deviceType = $bridgeDevice['productName'];
             if ('Lighting' === $deviceType) {
-                $myDevice = new \a15lam\PhpWemo\Devices\WemoBulb($chosen[0], $chosen[1]);
+                $myDevice = new \openWebX\PhpWemo\Devices\WemoBulb($chosen[0], $chosen[1]);
             } else {
                 echo "\nYour Wemo Link device $chosen[1] is not currently supported by PHP-WEMO" . PHP_EOL;
                 exit();
@@ -104,8 +104,8 @@ if (count($devices) > 0) {
                 }
             }
         } else {
-            $client = new \a15lam\PhpWemo\WemoClient($device['ip'], $device['port']);
-            /** @type \a15lam\PhpWemo\Contracts\DeviceInterface $myDevice */
+            $client = new \openWebX\PhpWemo\WemoClient($device['ip'], $device['port']);
+            /** @type \openWebX\PhpWemo\Contracts\DeviceInterface $myDevice */
             $myDevice = new $deviceClass($chosen[0], $client);
 
             echo "\nOptions..." . PHP_EOL;
