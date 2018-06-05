@@ -1,13 +1,13 @@
 <?php
 
-namespace a15lam\PhpWemo\Devices;
+namespace openWebX\PhpWemo\Devices;
 
-use a15lam\PhpWemo\Contracts\DeviceInterface;
+use openWebX\PhpWemo\Contracts\DeviceInterface;
 
 /**
  * Class LightSwitch
  *
- * @package a15lam\PhpWemo\Devices
+ * @package openWebX\PhpWemo\Devices
  */
 class LightSwitch extends BaseDevice implements DeviceInterface
 {

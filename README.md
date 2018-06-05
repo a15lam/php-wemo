@@ -14,7 +14,7 @@ Currently supports...
 ## Getting started:
 
 <pre>
-git clone https://github.com/a15lam/php-wemo.git
+git clone https://github.com/openWebX/php-wemo.git
 cd php-wemo
 composer update
 php example/console.php   // An example command line app to control your wemo devices.
@@ -23,7 +23,7 @@ php example/console.php   // An example command line app to control your wemo de
 ## Usage:
 
 <pre>
-$lightSwitch = \a15lam\PhpWemo\Discovery::getDeviceByName('Bed Room Light'); // Use your wemo device name as they show on your wemo app. Supports grouped devices
+$lightSwitch = \openWebX\PhpWemo\Discovery::getDeviceByName('Bed Room Light'); // Use your wemo device name as they show on your wemo app. Supports grouped devices
 $lightSwitch->On();
 sleep(2); // Allow a moment to see the light turning on.
 $lightSwitch->Off();

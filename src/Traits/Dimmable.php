@@ -1,13 +1,13 @@
 <?php
 
-namespace a15lam\PhpWemo\Traits;
+namespace openWebX\PhpWemo\Traits;
 
 /**
  * Class Dimmable
  *
  * Dimmable trait for Wemo Bulbs
  *
- * @package a15lam\PhpWemo\Traits
+ * @package openWebX\PhpWemo\Traits
  */
 trait Dimmable{
     /**

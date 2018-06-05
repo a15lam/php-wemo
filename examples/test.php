@@ -3,8 +3,8 @@ require __DIR__ . '/../vendor/autoload.php';
 
 //Run Discovery::find() to get device info. Use id to init devices.
 //
-//$bulb1 = new \a15lam\PhpWemo\Devices\WemoBulb('wemo_link', 'media_room_1');
-//$bulb2 = new \a15lam\PhpWemo\Devices\WemoBulb('192.168.1.69', 'media_room_2');
+//$bulb1 = new \openWebX\PhpWemo\Devices\WemoBulb('wemo_link', 'media_room_1');
+//$bulb2 = new \openWebX\PhpWemo\Devices\WemoBulb('192.168.1.69', 'media_room_2');
 ////
 //$bulb1->dim(10);
 //sleep(1);
@@ -29,15 +29,15 @@ require __DIR__ . '/../vendor/autoload.php';
 
 
 //
-//$switch = \a15lam\PhpWemo\Discovery::getBaseDeviceByName('Foyer Light');
-////$switch = new \a15lam\PhpWemo\Devices\LightSwitch('192.168.1.68');
-//$switch = new \a15lam\PhpWemo\Devices\LightSwitch('foyer_light');
+//$switch = \openWebX\PhpWemo\Discovery::getBaseDeviceByName('Foyer Light');
+////$switch = new \openWebX\PhpWemo\Devices\LightSwitch('192.168.1.68');
+//$switch = new \openWebX\PhpWemo\Devices\LightSwitch('foyer_light');
 //echo $switch->state();
 //$switch->On();
 //sleep(2);
 //$switch->Off();
 //
-//$switch = new \a15lam\PhpWemo\Devices\WemoSwitch('192.168.1.71');
+//$switch = new \openWebX\PhpWemo\Devices\WemoSwitch('192.168.1.71');
 //$switch->On();
 //sleep(2);
 //$switch->Off();
@@ -45,7 +45,7 @@ require __DIR__ . '/../vendor/autoload.php';
 //$switch->On();
 //print_r($switch->state());
 //
-//$wb = \a15lam\PhpWemo\Discovery::getDeviceByName('media room');
+//$wb = \openWebX\PhpWemo\Discovery::getDeviceByName('media room');
 //$wb->on();
 //sleep(2);
 //echo "state:".$wb->state().PHP_EOL;
@@ -54,9 +54,9 @@ require __DIR__ . '/../vendor/autoload.php';
 //sleep(1);
 //echo "state:".$wb->state().PHP_EOL;
 
-//$b = new \a15lam\PhpWemo\WemoClient('192.168.1.68');
+//$b = new \openWebX\PhpWemo\WemoClient('192.168.1.68');
 //echo "here".PHP_EOL;
 //print_r($b->info('setup.xml'));
 
-$devices = \a15lam\PhpWemo\Discovery::find(true);
+$devices = \openWebX\PhpWemo\Discovery::find(true);
 print_r($devices);

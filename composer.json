@@ -1,7 +1,7 @@
 {
-  "name": "a15lam/php-wemo",
+  "name": "openWebX/php-wemo",
   "description": "PHP library for Wemo devices.",
-  "homepage": "https://a15lam.github.io/php-wemo/",
+  "homepage": "https://openwebx.github.io/php-wemo/",
   "keywords": [
     "Wemo",
     "Soap",
@@ -14,16 +14,18 @@
     {
       "name": "Arif Islam",
       "email": "areef.islam@gmail.com"
+    },
+    {
+      "name": "Jens Reinemuth",
+      "email": "jens@reinemuth.rocks"
     }
   ],
   "require": {
-    "php": ">=5.6",
-    "a15lam/workspace": "~0.1.0",
-    "clue/ssdp-react": "dev-master"
+    "php": ">=7.2"
   },
   "autoload": {
     "psr-4": {
-      "a15lam\\PhpWemo\\": "src/"
+      "openWebX\\PhpWemo\\": "src/"
     }
   }
 }

@@ -1,14 +1,14 @@
 <?php
 
-namespace a15lam\PhpWemo\Devices;
+namespace openWebX\PhpWemo\Devices;
 
-use a15lam\PhpWemo\Discovery;
-use a15lam\PhpWemo\WemoClient;
+use openWebX\PhpWemo\Discovery;
+use openWebX\PhpWemo\WemoClient;
 
 /**
  * Class Bridge
  *
- * @package a15lam\PhpWemo\Devices
+ * @package openWebX\PhpWemo\Devices
  */
 class Bridge extends BaseDevice
 {

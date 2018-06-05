@@ -1,15 +1,15 @@
 <?php
-namespace a15lam\PhpWemo;
+namespace openWebX\PhpWemo;
 
-use a15lam\PhpWemo\Contracts\ClientInterface;
-use a15lam\PhpWemo\Workspace as WS;
+use openWebX\PhpWemo\Contracts\ClientInterface;
+use openWebX\PhpWemo\Workspace as WS;
 
 /**
  * Class WemoClient
  *
  * This class makes various HTTP requests to Wemo devices.
  *
- * @package a15lam\PhpWemo
+ * @package openWebX\PhpWemo
  */
 class WemoClient extends BaseClient implements ClientInterface
 {
@@ -24,7 +24,7 @@ class WemoClient extends BaseClient implements ClientInterface
      * @return array|string
      * @throws \Exception
      */
-    public function request($controlUrl, $service = null, $method = null, $arguments = [])
+    public function request($controlUrl, ?string $service = null, ?string $method = null, array $arguments = [])
     {
         $controlUrl = ltrim($controlUrl, '/');
         $url = 'http://' . $this->ip . '/' . $controlUrl;
