@@ -1,5 +1,5 @@
 <?php
-namespace a15lam\PhpWemo\Contracts;
+namespace openWebX\PhpWemo\Contracts;
 
 interface DeviceInterface{
     public function On();

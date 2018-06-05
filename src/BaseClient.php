@@ -1,9 +1,9 @@
 <?php
 
-namespace a15lam\PhpWemo;
+namespace openWebX\PhpWemo;
 
 
-use a15lam\PhpWemo\Workspace as WS;
+use openWebX\PhpWemo\Workspace as WS;
 
 class BaseClient
 {

@@ -1,58 +1,43 @@
 <?php
 
-namespace a15lam\PhpWemo\Devices;
+namespace openWebX\PhpWemo\Devices;
 
-use a15lam\PhpWemo\Contracts\ClientInterface;
-use a15lam\PhpWemo\Discovery;
-use a15lam\PhpWemo\Workspace as WS;
+use openWebX\PhpWemo\Contracts\ClientInterface;
+use openWebX\PhpWemo\Discovery;
+use openWebX\PhpWemo\Workspace as WS;
 
 /**
  * Class BaseDevice
  *
- * @package a15lam\PhpWemo\Devices
+ * @package openWebX\PhpWemo\Devices
  */
 class BaseDevice
 {
-    /** @type string */
+
     protected $ip = null;
 
-    /** @type \a15lam\PhpWemo\WemoClient|null */
     protected $client = null;
 
-    /** @type array */
+
     protected $services = [];
 
     protected $id = null;
 
-    /**
-     * BaseDevice constructor.
-     *
-     * @param string $id Device ip or id
-     * @param ClientInterface   $client
-     */
-    public function __construct(?string $id, $client)
+
+    public function __construct(string $id, ClientInterface $client)
     {
         $this->id = $id;
         $this->ip = (self::isIp($id)) ? $id : static::getDeviceIpById($id);
         $this->client = $client;
     }
 
-    /**
-     * @param string $resource
-     *
-     * @return array|string
-     */
+
     public function info($resource = 'setup.xml')
     {
         return $this->client->info($resource);
     }
 
-    /**
-     * @param bool $refresh
-     *
-     * @return mixed
-     * @throws \Exception
-     */
+
     public function getUDN($refresh = false)
     {
         if ($refresh === false) {
@@ -71,12 +56,7 @@ class BaseDevice
         throw new \Exception('UDN not found for device with ip address ' . $this->ip);
     }
 
-    /**
-     * @param $state
-     *
-     * @return array|string
-     * @throws \Exception
-     */
+
     protected function setBinaryState($state)
     {
         $service = $this->services['BridgeService']['serviceType'];
@@ -102,10 +82,7 @@ class BaseDevice
         }
     }
 
-    /**
-     * @return mixed
-     * @throws \Exception
-     */
+
     protected function getBinaryState()
     {
         $service = $this->services['BridgeService']['serviceType'];
@@ -127,12 +104,6 @@ class BaseDevice
         }
     }
 
-    /**
-     * @param array $response
-     *
-     * @return mixed
-     * @throws \Exception
-     */
     protected function unwrapResponse(array $response)
     {
         try {
@@ -145,11 +116,7 @@ class BaseDevice
         }
     }
 
-    /**
-     * @param $ip
-     *
-     * @return bool
-     */
+
     public static function isIp($ip)
     {
         $segments = explode('.', $ip);
@@ -167,12 +134,6 @@ class BaseDevice
         }
     }
 
-    /**
-     * @param $id
-     *
-     * @return mixed
-     * @throws \Exception
-     */
     public static function getDeviceIpById($id)
     {
         $device = Discovery::lookupDevice('id', $id);

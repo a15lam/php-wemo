@@ -1,21 +1,21 @@
 <?php
-namespace a15lam\PhpWemo\Devices;
+namespace openWebX\PhpWemo\Devices;
 
-use a15lam\PhpWemo\Contracts\DeviceInterface;
-use a15lam\PhpWemo\Traits\Dimmable;
-use a15lam\PhpWemo\Discovery;
-use a15lam\PhpWemo\WemoClient;
+use openWebX\PhpWemo\Contracts\DeviceInterface;
+use openWebX\PhpWemo\Traits\Dimmable;
+use openWebX\PhpWemo\Discovery;
+use openWebX\PhpWemo\WemoClient;
 
 /**
  * Class WemoBulb
  *
- * @package a15lam\PhpWemo\Devices
+ * @package openWebX\PhpWemo\Devices
  */
 class WemoBulb implements DeviceInterface
 {
     use Dimmable;
 
-    /** @type \a15lam\PhpWemo\Devices\Bridge|null */
+    /** @type \openWebX\PhpWemo\Devices\Bridge|null */
     protected $bridge = null;
 
     /** @type string null */
